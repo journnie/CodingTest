@@ -1,9 +1,6 @@
 T = int(input())
 test_cases = [list(map(str, input())) for _ in range(T)]
 
-
-# T, test_cases = read_input()
-
 for a in test_cases:
     FLAG = True
     stack = []
