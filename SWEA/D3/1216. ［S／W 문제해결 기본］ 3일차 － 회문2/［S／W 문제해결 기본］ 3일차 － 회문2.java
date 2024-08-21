@@ -18,22 +18,15 @@ public class Solution {
 
             int maxPalindromeLength = 1;  // 최소 길이 1
 
-            // 가로 회문 탐색
-            for (int i = 0; i < N; i++) {
+            // 회문 탐색
+
+            for (int base = 0; base < N; base++) {
                 for (int start = 0; start < N; start++) {
                     for (int end = N - 1; end >= start; end--) {
-                        if (isRowPalindrome(text[i], start, end)) {
+                        if (isColumnPalindrome(text, base, start, end)) {
                             maxPalindromeLength = Math.max(maxPalindromeLength, end - start + 1);
                         }
-                    }
-                }
-            }
-
-            // 세로 회문 탐색
-            for (int j = 0; j < N; j++) {
-                for (int start = 0; start < N; start++) {
-                    for (int end = N - 1; end >= start; end--) {
-                        if (isColumnPalindrome(text, j, start, end)) {
+                        if (isRowPalindrome(text, base, start, end)) {
                             maxPalindromeLength = Math.max(maxPalindromeLength, end - start + 1);
                         }
                     }
@@ -45,9 +38,9 @@ public class Solution {
     }
 
     // 가로 문자열의 부분 회문 체크
-    private static boolean isRowPalindrome(String[] row, int start, int end) {
+    private static boolean isRowPalindrome(String[][] text, int base, int start, int end) {
         while (start < end) {
-            if (!row[start].equals(row[end])) {
+            if (!text[base][start].equals(text[base][end])) {
                 return false;
             }
             start++;
@@ -57,9 +50,9 @@ public class Solution {
     }
 
     // 세로 문자열의 부분 회문 체크
-    private static boolean isColumnPalindrome(String[][] text, int col, int start, int end) {
+    private static boolean isColumnPalindrome(String[][] text, int base, int start, int end) {
         while (start < end) {
-            if (!text[start][col].equals(text[end][col])) {
+            if (!text[start][base].equals(text[end][base])) {
                 return false;
             }
             start++;
