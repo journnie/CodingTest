@@ -1,41 +1,59 @@
+
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Stack;
 
 public class Solution {
-    static char[] openParenthesis = {'(', '{', '[', '<'};
-    static char[] closeParenthesis = {')', '}', ']', '>'};
+    static char[] stack;
+    static int stackSize;
+
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
 
-        for(int t = 0; t < 10; t++) {
-            int N = Integer.parseInt(br.readLine().trim());
-            String parenthesis = br.readLine().trim();
+        for(int t = 1; t <= 10; t++) {
+            int N = Integer.parseInt(br.readLine());
+            String parenthesis = br.readLine();
 
-            int answer = checkParenthesis(parenthesis)? 1: 0;
-            sb.append(String.format("#%d %d\n", t+1, answer));
+            stack = new char[N];
+            stackSize = 0;
+
+            int availability = isAvailable(parenthesis);
+
+            System.out.printf("#%d %d\n", t, availability);
+
         }
-        System.out.println(sb);
     }
-    static boolean checkParenthesis(String parenthesis) {
-        Stack<Integer> stack = new Stack<>();
 
-        for(char p : parenthesis.toCharArray()) {
-            for(int openP = 0; openP < openParenthesis.length; openP++) {
-                if(p == openParenthesis[openP]) {stack.push(openP);}
+    static int isAvailable(String parenthesis) {
+
+        for(char c : parenthesis.toCharArray()) {
+            if(c == '(' || c == '{' || c == '[' || c == '<') {
+                stack[stackSize++] = c;
             }
-
-            for(int closeP = 0; closeP < closeParenthesis.length; closeP++) {
-                if(p == closeParenthesis[closeP]) {
-                    if(stack.isEmpty()) return false;
-                    if(stack.pop() != closeP) {return false;}
+            else {
+                if(stackSize == 0) return 0;
+                if(c == ')') {
+                     if(stack[stackSize-1] == '(') stack[--stackSize] = 0;
+                     else return 0;
+                }
+                else if(c == '}') {
+                    if(stack[stackSize-1] == '{') stack[--stackSize] = 0;
+                    else return 0;
+                }
+                else if(c == ']') {
+                    if(stack[stackSize-1] == '[') stack[--stackSize] = 0;
+                    else return 0;
+                }
+                else if(c == '>') {
+                    if(stack[stackSize-1] == '<') stack[--stackSize] = 0;
+                    else return 0;
                 }
             }
         }
-        return stack.isEmpty();
+        return stackSize == 0 ? 1 : 0;
     }
 }
