@@ -2,58 +2,52 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static int n;
-    static int m;
+    static int N, M;
     static int[][] maze;
-    static boolean[][] visited;
-
-    static int[] dx = {-1, 1, 0, 0};
-    static int[] dy = {0, 0, -1, 1};
-
+    static int[] dr = {-1, 1, 0, 0};
+    static int[] dc = {0, 0, -1, 1};
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
 
-        maze = new int[n+1][m+1];
-        visited = new boolean[n+1][m+1];
-
-        for(int i = 1; i <= n; i++) {
+        // 미로 만들기
+        maze = new int[N+1][M+1];
+        for(int i = 1; i <= N; i++) {
             String line = br.readLine();
-            for(int j = 1; j <= m;j++) {
+            for(int j = 1; j <= M; j++) {
                 maze[i][j] = line.charAt(j-1) - '0';
             }
         }
 
-        visited[1][1] = true; //start
-        bfs(1, 1);
-        System.out.println(maze[n][m]);
+        bfs();
+        int moves = maze[N][M];
+        System.out.println(moves);
 
     }
 
-    public static void bfs(int x, int y) {
-        Queue<int[]> q = new LinkedList<>();
-        q.add(new int[]{x,y});
+    static Queue<int[]> queue = new LinkedList<>();
+    static void bfs() {
+        queue.add(new int[]{1, 1});
 
-        while(!q.isEmpty()) {
-            int[] current = q.poll();
-            int nx = current[0];
-            int ny = current[1];
+        while(!queue.isEmpty()) {
+            int[] current = queue.poll();
+            int curR = current[0];
+            int curC = current[1];
 
-            for(int d=0; d < 4; d++) {
-                int nextX = nx + dx[d];
-                int nextY = ny + dy[d];
-
-                if(nextX > 0 && nextX <= n && nextY > 0 && nextY <= m) {
-                    if(maze[nextX][nextY] == 1 && !visited[nextX][nextY]) {
-                        q.add(new int[] {nextX, nextY});
-                        visited[nextX][nextY]=true;
-                        maze[nextX][nextY] = maze[nx][ny]+1;
+            for(int d = 0; d < 4; d++) {
+                int newR = curR + dr[d];
+                int newC = curC + dc[d];
+                if(newR > 0 && newR <= N && newC > 0 && newC <= M) {
+                    if(maze[newR][newC] == 1) {
+                        queue.add(new int[]{newR, newC});
+                        maze[newR][newC] += maze[curR][curC];
                     }
                 }
             }
         }
+
     }
 }
