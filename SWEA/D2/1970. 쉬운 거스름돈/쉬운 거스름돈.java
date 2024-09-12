@@ -7,19 +7,27 @@ public class Solution {
 
         int T = Integer.parseInt(br.readLine());
         for(int t = 1; t <= T; t++) {
-            sb.append("#").append(Integer.toString(t)).append("\n");
-            int cash = Integer.parseInt(br.readLine());
+            sb.append("#").append(t).append("\n");
+            int totalChange = Integer.parseInt(br.readLine());
             int[] money = {50000, 10000, 5000, 1000, 500, 100, 50, 10};
+            int[] dp = new int[money.length];
 
-            while (cash >= 10) {
-                for(int m = 0; m < money.length; m++) {
-                    int change = cash/money[m];
-                    sb.append(change).append(" ");
-                    cash = cash - money[m]*change;
+            int currentChange = totalChange;
+            while (currentChange >= 10){
+                for (int m = 0; m < money.length; m++) { // 큰 돈부터 시작함
+                    if (currentChange < money[m]) continue;
+                    int cnt = currentChange/money[m]; // 동전 개수
+                    dp[m] = cnt; // 동전 개수 저장
+                    currentChange -= money[m] * cnt; // 나머지 개수 구하러 감
+
                 }
             }
-            sb.append("\n");
 
+            for (int m = 0; m < money.length; m++) {
+                sb.append(dp[m]).append(" ");
+
+            }
+            sb.append("\n");
         }
         System.out.println(sb);
     }
