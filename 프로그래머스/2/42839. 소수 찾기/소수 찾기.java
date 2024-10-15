@@ -3,14 +3,9 @@ import java.util.*;
 class Solution {
     static List<Integer> primeNumbers;
     static List<String> combinations;
-    static int[] numbersArr;
     static boolean[] visited;
     
     public int solution(String numbers) {
-        numbersArr = new int[numbers.length()];
-        for (int i = 0; i < numbersArr.length; i++) {
-            numbersArr[i] = numbers.charAt(i) - '0';
-        }
         primeNumbers = new ArrayList<>();
         combinations = new ArrayList<>();
         visited = new boolean[numbers.length()];
@@ -29,7 +24,7 @@ class Solution {
     public void combination(String numbersStr, String numbers, int count) {
         if(count >= numbers.length()) return;
 
-        for (int i = 0; i < numbersArr.length; i++) {
+        for (int i = 0; i < numbers.length(); i++) {
             if(visited[i]) continue;
             String newNumber = numbersStr + numbers.charAt(i);
             visited[i] = true;
