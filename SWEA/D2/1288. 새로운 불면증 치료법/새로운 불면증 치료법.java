@@ -1,28 +1,29 @@
 import java.io.*;
-import java.util.*;
 
 public class Solution {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
 
         int T = Integer.parseInt(br.readLine());
-
         for(int t = 0; t < T; t++) {
+            sb.append("#").append(t+1).append(" ");
             int N = Integer.parseInt(br.readLine());
-            Set<Character> set = new HashSet<>();
-            int n = 0;
 
-            while (set.size() < 10) {
-                n++;
-                char[] chars = Integer.toString(n*N).toCharArray();
-                for(char c : chars) {
-                    set.add(c);
+            int zeroToNine = 0;
+            int count = 0;
+
+            while (!isZeroToNine(zeroToNine)){
+                count++;
+                for(char c : String.valueOf(N*count).toCharArray()) {
+                    zeroToNine |= (1 << (c - '0'));
                 }
             }
-
-            int answer = n*N;
-            System.out.printf("#%d %d\n", t+1, answer);
-
+            sb.append(count*N).append("\n");
         }
+        System.out.println(sb);
+    }
+    public static boolean isZeroToNine(int zeroToNine) {
+        return zeroToNine == (1 << 10)-1;
     }
 }
