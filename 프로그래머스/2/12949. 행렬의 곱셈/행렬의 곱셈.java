@@ -3,17 +3,16 @@ class Solution {
         int M = arr1.length;
         int N = arr1[0].length;
         int P = arr2[0].length;
-        
+
         int[][] answer = new int[M][P];
-        
-        for(int m=0; m<M; m++){
-            for(int p=0; p<P; p++){
-                for(int n=0; n<N; n++){
-                    answer[m][p]+= arr1[m][n] * arr2[n][p];
+        for(int i = 0; i < M; i++){
+            for(int k = 0; k < P; k++){
+                for(int j = 0; j < N; j++){
+                    answer[i][k] += arr1[i][j] * arr2[j][k];
                 }
             }
         }
-        
+
         return answer;
     }
 }
