@@ -8,20 +8,21 @@ class Solution {
         
         int[] scores = new int[3];
         
-        for(int i = 0; i < answers.length; i++){
-            for(int s=0; s<students.length; s++) {
-                int[] student = students[s];
-                if(student[i%student.length] == answers[i]) scores[s]++;    
+        for(int s=0; s<students.length; s++) {
+            int[] student = students[s];
+            for(int i=0; i<answers.length; i++){
+                if(answers[i] == student[i%student.length]) scores[s]++;
             }
         }
         
         int maxScore = Arrays.stream(scores).max().getAsInt();
         
-        ArrayList<Integer> answer = new ArrayList<>();
-        for(int s=0; s<students.length; s++) {
-            if(scores[s]==maxScore) answer.add(s+1);
+        List<Integer> answer = new ArrayList<>();
+        
+        for(int s=0; s<scores.length; s++) {
+            if(scores[s] == maxScore) answer.add(s+1);
         }
         
-        return answer.stream().mapToInt(Integer::intValue).toArray();
+        return answer.stream().sorted().mapToInt(Integer::intValue).toArray();
     }
 }
