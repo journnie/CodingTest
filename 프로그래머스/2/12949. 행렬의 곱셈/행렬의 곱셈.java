@@ -1,18 +1,15 @@
 class Solution {
     public int[][] solution(int[][] arr1, int[][] arr2) {
-        int M = arr1.length;
-        int N = arr1[0].length;
-        int P = arr2[0].length;
-
-        int[][] answer = new int[M][P];
-        for(int i = 0; i < M; i++){
-            for(int k = 0; k < P; k++){
-                for(int j = 0; j < N; j++){
-                    answer[i][k] += arr1[i][j] * arr2[j][k];
+        int[][] answer = new int[arr1.length][arr2[0].length];
+        
+        for(int m = 0; m < arr1.length; m++) {
+            for(int n = 0; n < arr2[0].length; n++){
+                for(int k = 0; k < arr1[0].length; k++){
+                    answer[m][n] += (arr1[m][k] * arr2[k][n]);
                 }
             }
         }
-
+        
         return answer;
     }
 }
