@@ -1,34 +1,38 @@
-import java.util.*;
+import java.util.HashMap; 
 
 class Solution {
     public int[] solution(int N, int[] stages) {
-        int users = stages.length;
-        int[][] status = new int[N+2][2];
+        // 실패율 = 스테이지에 도달했으나 아직 클리어하지 못한 플레이어의 수 / 스테이지에 도달한 플레이어 수
+        int[] cleared = new int[N+2]; // 몽땅 클리어한 사람은 N+1 stage
+        int[] stays = new int[N+2]; // 클리어 못한 사람
         
-        for(int stage : stages) {
-            status[stage][0]++;
-            for(int s=1; s<=stage; s++){
-                status[s][1]++;
+        HashMap<Integer, Double> failure = new HashMap<>();
+        
+        int total = stages.length;
+        
+        // 각 스테이지별 도달한 플레이어 수
+        for(int stage :  stages) {
+            for (int s = 1; s <= stage; s++) {
+                cleared[s]++;
             }
-        }
-        
-        TreeMap<Integer, Double> failure = new TreeMap<>();
-        
-        for(int s=1; s<=N; s++){
-            double rate = 0.0;
-            if(status[s][1]>0) rate = (double) status[s][0]/status[s][1];
-            failure.put(s, rate);
+            
+            stays[stage]++;
             
         }
         
-        int[] answer = failure.entrySet().stream()
-                              .sorted((e1, e2) -> {
-                                  int cmp = e2.getValue().compareTo(e1.getValue()); 
-                                  if (cmp != 0) return cmp;
-                                  return e1.getKey().compareTo(e2.getKey()); 
-                              })
-                              .mapToInt(Map.Entry::getKey)
-                              .toArray();
-        return answer;
+        for(int s = 1; s <= N; s++) {
+            if(cleared[s] == 0) {
+                failure.put(s, 0.0);
+            }
+            else {
+                failure.put(s, (stays[s]*1.0)/cleared[s]);
+            }
+            
+
+        }
+        
+        
+        
+        return failure.entrySet().stream().sorted((o1, o2) -> Double.compare(o2.getValue(), o1.getValue())).mapToInt(HashMap.Entry::getKey).toArray();
     }
 }
