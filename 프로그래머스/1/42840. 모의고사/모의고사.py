@@ -6,9 +6,9 @@ def solution(answers):
     answer = []
     
     for i, ans in enumerate(answers):
-        for s in range(3):
-            if(patterns[s][i%len(patterns[s])] == ans):
-                scores[s]+=1
+        for s, pattern in enumerate(patterns):
+            if(pattern[i%len(pattern)] == ans):
+                scores[s] += 1
     
     for i, score in enumerate(scores):
         if(score == max(scores)): answer.append(i+1)
